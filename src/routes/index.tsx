@@ -1,24 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { MersetaWorkspace } from "@/components/merseta-workspace";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "merSETA Extractor — Skills Intelligence Workspace" },
+      {
+        name: "description",
+        content:
+          "Turn institutional documents into structured skills knowledge: upload, extract, and explore occupational intelligence.",
+      },
+      { property: "og:title", content: "merSETA Extractor — Skills Intelligence Workspace" },
+      {
+        property: "og:description",
+        content:
+          "Upload a document, start a research session, or explore extracted skills and occupational intelligence.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+  return <MersetaWorkspace />;
 }
