@@ -1,7 +1,7 @@
 # merSETA Extractor build
 
-- [ ] Refine the workspace to the selected ChatGPT-like layout and minimal Notion-style typography
-- [ ] Verify the simplified welcome, composer, navigation, and themes
+- [x] Refine the workspace to the selected ChatGPT-like layout and minimal Notion-style typography
+- [x] Verify the simplified welcome, composer, navigation, and themes
 
 - [x] Establish brand assets, tokens, favicon, typography, and metadata
 - [x] Build reusable application shell and responsive navigation
