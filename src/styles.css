@@ -46,22 +46,22 @@
 
 :root {
   --radius: 8px;
-  --background: oklch(0.9850 0.0041 91.45);
+  --background: oklch(0.985 0.0041 91.45);
   --foreground: oklch(0.2101 0.0318 264.66);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.2101 0.0318 264.66);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.2101 0.0318 264.66);
   --primary: oklch(0.3276 0.0678 257.27);
-  --primary-foreground: oklch(0.9850 0.0041 91.45);
+  --primary-foreground: oklch(0.985 0.0041 91.45);
   --secondary: oklch(0.9632 0.0034 247.86);
   --secondary-foreground: oklch(0.2743 0.0587 260.48);
   --muted: oklch(0.9632 0.0034 247.86);
-  --muted-foreground: oklch(0.5444 0.0350 265.11);
+  --muted-foreground: oklch(0.5444 0.035 265.11);
   --accent: oklch(0.8906 0.0719 94.42 / 45%);
   --accent-foreground: oklch(0.2743 0.0587 260.48);
   --destructive: oklch(0.55 0.19 28);
-  --destructive-foreground: oklch(0.9850 0.0041 91.45);
+  --destructive-foreground: oklch(0.985 0.0041 91.45);
   --border: oklch(0.9162 0.0077 241.67);
   --input: oklch(0.9162 0.0077 241.67);
   --ring: oklch(0.7665 0.1387 91.06);
@@ -72,8 +72,8 @@
   --gold-light: oklch(0.8906 0.0719 94.42);
   --gold-badge: oklch(0.8465 0.0791 84.25);
   --amber: oklch(0.5885 0.1169 70.61);
-  --amber-dark: oklch(0.5232 0.1040 70.82);
-  --paper: oklch(0.9850 0.0041 91.45);
+  --amber-dark: oklch(0.5232 0.104 70.82);
+  --paper: oklch(0.985 0.0041 91.45);
   --mist: oklch(0.9632 0.0034 247.86);
   --line: oklch(0.9162 0.0077 241.67);
   --ink: oklch(0.2101 0.0318 264.66);
@@ -83,9 +83,9 @@
 .dark {
   --background: oklch(0.176 0.035 258);
   --foreground: oklch(0.97 0.006 248);
-  --card: oklch(0.220 0.045 258);
+  --card: oklch(0.22 0.045 258);
   --card-foreground: oklch(0.97 0.006 248);
-  --popover: oklch(0.220 0.045 258);
+  --popover: oklch(0.22 0.045 258);
   --popover-foreground: oklch(0.97 0.006 248);
   --primary: oklch(0.7665 0.1387 91.06);
   --primary-foreground: oklch(0.176 0.035 258);
@@ -107,11 +107,28 @@
 }
 
 @layer base {
-  * { border-color: var(--border); }
-  html { font-family: var(--font-sans); }
-  body { margin: 0; background: var(--background); color: var(--foreground); }
-  button, a, input, textarea, select { letter-spacing: 0; }
-  ::selection { background: var(--gold-light); color: var(--navy-dark); }
+  * {
+    border-color: var(--border);
+  }
+  html {
+    font-family: var(--font-sans);
+  }
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+  }
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    letter-spacing: 0;
+  }
+  ::selection {
+    background: var(--gold-light);
+    color: var(--navy-dark);
+  }
 }
 
 @utility eyebrow {
@@ -127,18 +144,43 @@
 }
 
 @keyframes quiet-pulse {
-  0%, 100% { opacity: .35; transform: scaleX(.55); }
-  50% { opacity: 1; transform: scaleX(1); }
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scaleX(0.55);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1);
+  }
 }
 
 @keyframes rise-in {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.quiet-line { animation: quiet-pulse 1.6s cubic-bezier(.4,0,.2,1) infinite; transform-origin: left; }
-.view-enter { animation: rise-in 360ms cubic-bezier(.16,1,.3,1) both; }
+.quiet-line {
+  animation: quiet-pulse 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  transform-origin: left;
+}
+.view-enter {
+  animation: rise-in 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
