@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Workspace rules
+- Compose chat inputs and transcripts from the installed AI Elements primitives; keep mock navigation in the existing workspace so visual refinements do not introduce backend behavior.
