@@ -11,6 +11,7 @@ import {
 import { type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { BRAND_ASSETS } from "../lib/brand-assets";
 
 function NotFoundComponent() {
   return (
@@ -99,7 +100,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap",
       },
-      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "icon", href: BRAND_ASSETS.favicon, type: "image/png" },
     ],
   }),
   shellComponent: RootShell,

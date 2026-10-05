@@ -99,8 +99,7 @@ import {
   PromptInputTools,
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
-import logoIcon from "@/assets/merseta-extractor-icon.png.asset.json";
-import logoLockup from "@/assets/merseta-extractor-lockup.png.asset.json";
+import { BRAND_ASSETS } from "@/lib/brand-assets";
 import { occupations, recentItems, skills, type WorkspaceView } from "@/lib/merseta-data";
 import { cn } from "@/lib/utils";
 
@@ -115,7 +114,11 @@ const nav: { id: WorkspaceView; label: string; icon: LucideIcon }[] = [
 function ProductMark({ compact = false }: { compact?: boolean }) {
   return (
     <div className="flex min-w-0 items-center gap-2.5">
-      <img src={logoIcon.url} alt="merSETA Extractor" className="size-6 shrink-0 object-contain" />
+      <img
+        src={BRAND_ASSETS.icon}
+        alt={compact ? "merSETA Extractor" : ""}
+        className="size-6 shrink-0 object-contain"
+      />
       {!compact && (
         <div className="min-w-0 leading-none">
           <p className="truncate text-sm font-semibold text-foreground">merSETA Extractor</p>
@@ -374,7 +377,7 @@ function WelcomeView({
     <main className="view-enter flex h-full min-h-[440px] flex-col px-5 pb-6 sm:px-8">
       <div className="mx-auto flex w-full max-w-[680px] flex-1 flex-col justify-center pb-8 md:pb-16">
         <div className="mb-7 flex justify-center">
-          <img src={logoIcon.url} alt="" className="size-10 object-contain" />
+          <img src={BRAND_ASSETS.icon} alt="" className="size-10 object-contain" />
         </div>
         <h1 className="text-center text-2xl font-medium leading-8 text-foreground">
           How can I help you today?
@@ -653,7 +656,7 @@ function SessionView({ prompt, onAttach }: { prompt?: string; onAttach: () => vo
           </Message>
           <Message from="assistant" className="max-w-none">
             <div className="flex items-center gap-2">
-              <img src={logoIcon.url} alt="" className="size-6 object-contain" />
+              <img src={BRAND_ASSETS.icon} alt="" className="size-6 object-contain" />
               <p className="text-xs font-bold">merSETA Extractor</p>
             </div>
             <MessageContent className="w-full max-w-[800px] gap-5 text-[15px] leading-7">
@@ -702,7 +705,7 @@ The report signals a shift from routine maintenance toward **integrated automati
           </Message>
           {thinking && (
             <div className="flex items-center gap-3 text-sm">
-              <img src={logoIcon.url} alt="" className="size-6 object-contain" />
+              <img src={BRAND_ASSETS.icon} alt="" className="size-6 object-contain" />
               <Shimmer>Examining evidence...</Shimmer>
             </div>
           )}
@@ -1027,7 +1030,7 @@ function SettingsView({ dark, onDark }: { dark: boolean; onDark: () => void }) {
           {category === "About" && (
             <div className="mt-10 border-t border-border pt-8">
               <img
-                src={logoLockup.url}
+                src={BRAND_ASSETS.lockup}
                 alt="merSETA Extractor — AI Workspace"
                 className="h-auto w-full max-w-md object-contain dark:rounded-md dark:bg-paper dark:p-3"
               />
