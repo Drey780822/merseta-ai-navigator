@@ -10,4 +10,5 @@ export const BRAND_ASSETS = {
   icon: `${cleanBase}assets/merseta-extractor-icon.png`,
   lockup: `${cleanBase}assets/merseta-extractor-lockup.png`,
   favicon: `${cleanBase}favicon.png`,
+  portfolioBackground: `${cleanBase}assets/merseta-portfolio-background.jpg`,
 } as const;

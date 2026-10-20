@@ -99,6 +99,7 @@ import {
   PromptInputTools,
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
+import { Seed } from "@/components/seed";
 import { BRAND_ASSETS } from "@/lib/brand-assets";
 import { occupations, recentItems, skills, type WorkspaceView } from "@/lib/merseta-data";
 import { cn } from "@/lib/utils";
@@ -121,7 +122,7 @@ function ProductMark({ compact = false }: { compact?: boolean }) {
       />
       {!compact && (
         <div className="min-w-0 leading-none">
-          <p className="truncate text-sm font-semibold text-foreground">merSETA Extractor</p>
+          <p className="truncate text-sm font-semibold text-ink-primary">merSETA Extractor</p>
         </div>
       )}
     </div>
@@ -132,11 +133,11 @@ function InstitutionalMarks({ compact = false }: { compact?: boolean }) {
   if (compact) return null;
   return (
     <div
-      className="flex h-7 items-center gap-2 text-[9px] font-extrabold uppercase tracking-[0.13em] text-muted-foreground"
+      className="flex h-7 items-center gap-2 text-[9px] font-extrabold uppercase tracking-[0.14em] text-ink-tertiary"
       aria-label="Wits and merSETA partnership"
     >
       <span>Wits</span>
-      <span className="h-4 w-px bg-border" />
+      <span className="h-3.5 w-px bg-line-subtle" />
       <span>merSETA</span>
     </div>
   );
@@ -190,7 +191,7 @@ function AppSidebar({
   return (
     <aside
       className={cn(
-        "flex h-full flex-col bg-muted/60 editorial-transition",
+        "flex h-full flex-col border-r border-line-subtle bg-ground-sunken/60 editorial-transition",
         slim ? "w-16" : "w-[248px]",
       )}
     >
@@ -200,7 +201,7 @@ function AppSidebar({
           <IconButton
             label={slim ? "Expand sidebar" : "Collapse sidebar"}
             onClick={onCollapse}
-            className="size-8 text-muted-foreground"
+            className="size-8 text-ink-secondary hover:text-ink-primary hover:bg-ground-raised"
           >
             {slim ? <PanelLeftOpen className="size-4" /> : <PanelLeftClose className="size-4" />}
           </IconButton>
@@ -210,13 +211,13 @@ function AppSidebar({
         <Button
           variant="ghost"
           className={cn(
-            "mb-1 h-10 w-full justify-start gap-3 font-normal",
+            "mb-1 h-10 w-full justify-start gap-3 font-medium text-ink-primary hover:bg-ground-raised",
             slim && "justify-center px-0",
           )}
           onClick={() => onView("welcome")}
           aria-label="New session"
         >
-          <Plus className="size-4" />
+          <Plus className="size-4 text-clay" />
           {!slim && "New session"}
         </Button>
         <Button
@@ -224,11 +225,11 @@ function AppSidebar({
           onClick={onSearch}
           aria-label="Search"
           className={cn(
-            "mb-5 h-10 w-full justify-start gap-3 font-normal text-muted-foreground",
+            "mb-5 h-10 w-full justify-start gap-3 font-normal text-ink-secondary hover:text-ink-primary hover:bg-ground-raised",
             slim && "justify-center px-0",
           )}
         >
-          <Search className="size-4" />
+          <Search className="size-4 text-ink-tertiary" />
           {!slim && "Search"}
         </Button>
         {nav.map((item, index) => {
@@ -240,25 +241,29 @@ function AppSidebar({
               onClick={() => onView(item.id)}
               aria-label={item.label}
               className={cn(
-                "h-10 w-full justify-start gap-3 font-normal text-muted-foreground",
-                active && "bg-secondary text-foreground",
+                "h-10 w-full justify-start gap-3 font-normal transition-colors",
+                active
+                  ? "border border-line-subtle bg-ground-raised font-semibold text-ink-primary shadow-[var(--shadow-e1)]"
+                  : "text-ink-secondary hover:bg-ground-raised/60 hover:text-ink-primary",
                 slim && "justify-center px-0",
               )}
             >
-              <item.icon className="size-4 shrink-0" />
+              <item.icon
+                className={cn("size-4 shrink-0", active ? "text-clay" : "text-ink-tertiary")}
+              />
               {!slim && <span className="truncate">{item.label}</span>}
             </Button>
           );
         })}
         {!slim && (
           <div className="mt-8">
-            <p className="mb-2 px-3 text-xs text-muted-foreground">Recent sessions</p>
+            <p className="mb-2 px-3 text-xs font-medium text-ink-tertiary">Recent sessions</p>
             {recentItems.map((item) => (
               <Button
                 variant="ghost"
                 key={item}
                 onClick={() => onView("session")}
-                className="h-10 w-full justify-start px-3 text-left text-[13px] font-normal text-foreground"
+                className="h-10 w-full justify-start px-3 text-left text-[13px] font-normal text-ink-secondary hover:bg-ground-raised hover:text-ink-primary"
               >
                 <span className="truncate">{item}</span>
               </Button>
@@ -277,18 +282,20 @@ function AppSidebar({
           onClick={() => onView("settings")}
           aria-label="Settings"
           className={cn(
-            "h-10 w-full justify-start gap-3 font-normal text-muted-foreground",
+            "h-10 w-full justify-start gap-3 font-normal text-ink-secondary hover:bg-ground-raised hover:text-ink-primary",
             slim && "justify-center px-0",
           )}
         >
-          <Settings className="size-4" />
+          <Settings className="size-4 text-ink-tertiary" />
           {!slim && "Settings"}
         </Button>
         <div className={cn("flex items-center gap-3 px-3 py-3", slim && "justify-center px-0")}>
-          <div className="grid size-7 shrink-0 place-items-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
+          <div className="grid size-7 shrink-0 place-items-center rounded-full bg-clay text-[10px] font-semibold text-primary-foreground shadow-[var(--shadow-e1)]">
             TD
           </div>
-          {!slim && <p className="truncate text-[13px]">Tshepang Dikotope</p>}
+          {!slim && (
+            <p className="truncate text-[13px] font-medium text-ink-primary">Tshepang Dikotope</p>
+          )}
         </div>
       </div>
     </aside>
@@ -309,51 +316,69 @@ function AppHeader({
   onSearch: () => void;
 }) {
   return (
-    <header className="flex h-16 shrink-0 items-center gap-2 bg-background px-3 sm:px-5">
+    <header className="flex h-16 shrink-0 items-center gap-2 border-b border-line-subtle bg-background/80 px-3 backdrop-blur sm:px-5">
       <Button
         variant="ghost"
         size="icon"
-        className="md:hidden"
+        className="md:hidden text-ink-secondary hover:text-ink-primary hover:bg-ground-raised"
         onClick={onMenu}
         aria-label="Open navigation"
       >
         <Menu />
       </Button>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-medium text-muted-foreground">
+        <p className="truncate text-sm font-medium text-ink-secondary">
           {title === "Workspace" || title === "Research session" ? "merSETA Extractor" : title}
         </p>
       </div>
       <div className="flex items-center gap-1">
-        <IconButton label="Search workspace" onClick={onSearch}>
+        <IconButton
+          label="Search workspace"
+          onClick={onSearch}
+          className="text-ink-secondary hover:text-ink-primary hover:bg-ground-raised"
+        >
           <Search />
         </IconButton>
-        <IconButton label={dark ? "Use light mode" : "Use dark mode"} onClick={onDark}>
+        <IconButton
+          label={dark ? "Use daylight mode" : "Use night workspace"}
+          onClick={onDark}
+          className="text-ink-secondary hover:text-ink-primary hover:bg-ground-raised"
+        >
           {dark ? <Sun /> : <Moon />}
         </IconButton>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" aria-label="Open profile menu">
-              <div className="grid size-7 place-items-center rounded-full border border-border bg-card text-[10px] font-bold">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Open profile menu"
+              className="hover:bg-ground-raised"
+            >
+              <div className="grid size-7 place-items-center rounded-full border border-line-subtle bg-card text-[10px] font-bold text-ink-primary shadow-[var(--shadow-e1)]">
                 TD
               </div>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuContent
+            align="end"
+            className="w-56 rounded-xl border border-line-subtle bg-card shadow-[var(--shadow-e2)]"
+          >
             <DropdownMenuLabel>
-              <p className="text-sm">Tshepang Dikotope</p>
-              <p className="font-normal text-muted-foreground">Research workspace</p>
+              <p className="text-sm font-semibold text-ink-primary">Tshepang Dikotope</p>
+              <p className="font-normal text-xs text-ink-secondary">
+                Wits–merSETA Research Workspace
+              </p>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <UserRound /> Profile
+            <DropdownMenuSeparator className="bg-line-subtle" />
+            <DropdownMenuItem className="text-ink-secondary hover:text-ink-primary focus:bg-ground-raised">
+              <UserRound className="text-ink-tertiary" /> Profile
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Settings /> Preferences
+            <DropdownMenuItem className="text-ink-secondary hover:text-ink-primary focus:bg-ground-raised">
+              <Settings className="text-ink-tertiary" /> Preferences
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <CircleHelp /> Help centre
+            <DropdownMenuSeparator className="bg-line-subtle" />
+            <DropdownMenuItem className="text-ink-secondary hover:text-ink-primary focus:bg-ground-raised">
+              <CircleHelp className="text-ink-tertiary" /> Help centre
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -363,7 +388,7 @@ function AppHeader({
 }
 
 function Eyebrow({ children }: { children: ReactNode }) {
-  return <p className="eyebrow text-amber">{children}</p>;
+  return <p className="eyebrow text-ink-tertiary">{children}</p>;
 }
 
 function WelcomeView({
@@ -376,56 +401,60 @@ function WelcomeView({
   return (
     <main className="view-enter flex h-full min-h-[440px] flex-col px-5 pb-6 sm:px-8">
       <div className="mx-auto flex w-full max-w-[680px] flex-1 flex-col justify-center pb-8 md:pb-16">
-        <div className="mb-7 flex justify-center">
+        <div className="mb-7 flex items-center justify-center gap-3">
           <img src={BRAND_ASSETS.icon} alt="" className="size-10 object-contain" />
+          <Seed size={32} state="idle" />
         </div>
-        <h1 className="text-center text-2xl font-medium leading-8 text-foreground">
+        <h1 className="text-center font-serif text-3xl sm:text-4xl font-normal tracking-[-0.015em] text-ink-primary">
           How can I help you today?
         </h1>
-        <p className="mx-auto mt-3 max-w-[360px] text-center text-sm leading-6 text-muted-foreground">
-          Explore skills, understand a report, or ask about your documents.
+        <p className="mx-auto mt-3 max-w-[420px] text-center text-base leading-relaxed text-ink-secondary">
+          Explore skills intelligence, analyze workforce reports, or query occupational
+          qualifications.
         </p>
         <div className="mt-8 hidden md:block">
           <Composer inline onSubmit={onSubmit} onAttach={() => onView("upload")} />
         </div>
-        <div className="mt-5 hidden items-center justify-center gap-2 md:flex">
+        <div className="mt-6 hidden items-center justify-center gap-3 md:flex">
           <Button
             variant="ghost"
             size="sm"
-            className="font-normal text-muted-foreground"
+            className="rounded-full border border-line-subtle bg-card px-4 py-2 text-sm font-medium text-ink-secondary hover:border-line-strong hover:bg-ground-raised hover:text-ink-primary shadow-[var(--shadow-e1)]"
             onClick={() => onView("upload")}
           >
-            <FileText className="size-4" />
+            <FileText className="size-4 text-clay" />
             Analyze a report
           </Button>
           <Button
             variant="ghost"
             size="sm"
-            className="font-normal text-muted-foreground"
+            className="rounded-full border border-line-subtle bg-card px-4 py-2 text-sm font-medium text-ink-secondary hover:border-line-strong hover:bg-ground-raised hover:text-ink-primary shadow-[var(--shadow-e1)]"
             onClick={() => onView("skills")}
           >
-            <Gauge className="size-4" />
+            <Gauge className="size-4 text-tide" />
             Explore skills
           </Button>
         </div>
       </div>
       <div className="mx-auto w-full max-w-[680px] md:hidden">
         <Composer inline onSubmit={onSubmit} onAttach={() => onView("upload")} />
-        <div className="mt-3 flex flex-wrap justify-center gap-1">
+        <div className="mt-4 flex flex-wrap justify-center gap-2">
           <Button
             variant="ghost"
             size="sm"
-            className="font-normal text-muted-foreground"
+            className="rounded-full border border-line-subtle bg-card px-4 py-2 text-xs font-medium text-ink-secondary hover:bg-ground-raised hover:text-ink-primary shadow-[var(--shadow-e1)]"
             onClick={() => onView("upload")}
           >
+            <FileText className="size-3.5 text-clay" />
             Analyze a report
           </Button>
           <Button
             variant="ghost"
             size="sm"
-            className="font-normal text-muted-foreground"
+            className="rounded-full border border-line-subtle bg-card px-4 py-2 text-xs font-medium text-ink-secondary hover:bg-ground-raised hover:text-ink-primary shadow-[var(--shadow-e1)]"
             onClick={() => onView("skills")}
           >
+            <Gauge className="size-3.5 text-tide" />
             Explore skills
           </Button>
         </div>
@@ -445,9 +474,12 @@ function UploadView({ onView }: { onView: (v: WorkspaceView) => void }) {
   return (
     <main className="view-enter mx-auto flex min-h-full w-full max-w-4xl flex-col px-5 pb-28 pt-12 sm:px-8 sm:pt-20">
       <Eyebrow>Document intake</Eyebrow>
-      <h1 className="mt-4 text-3xl font-medium text-foreground">Add a document</h1>
-      <p className="mt-4 max-w-xl leading-7 text-muted-foreground">
-        Bring a report into the workspace to inspect its structure and reveal skills intelligence.
+      <h1 className="mt-4 font-serif text-3xl sm:text-4xl font-normal text-ink-primary">
+        Add a document
+      </h1>
+      <p className="mt-4 max-w-xl text-base leading-relaxed text-ink-secondary">
+        Bring a sector skills report or occupational standard into the workspace to inspect its
+        structure and reveal skills intelligence.
       </p>
       <div
         onDragEnter={() => setDragging(true)}
@@ -455,45 +487,59 @@ function UploadView({ onView }: { onView: (v: WorkspaceView) => void }) {
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
         className={cn(
-          "mt-14 flex min-h-72 flex-col items-center justify-center border bg-card px-6 text-center editorial-transition",
-          dragging ? "border-navy ring-1 ring-gold" : "border-border hover:border-navy",
+          "mt-12 flex min-h-72 flex-col items-center justify-center rounded-2xl border-2 border-dashed bg-card px-6 text-center editorial-transition shadow-[var(--shadow-e1)]",
+          dragging
+            ? "border-tide bg-tide-tint/20 ring-2 ring-tide/30"
+            : "border-line-strong hover:border-tide",
         )}
       >
         <div
           className={cn(
-            "mb-6 grid size-11 place-items-center rounded-md border border-border text-navy dark:text-gold",
-            dragging && "border-gold bg-accent",
+            "mb-6 grid size-12 place-items-center rounded-xl border border-line-subtle bg-ground-raised text-tide shadow-[var(--shadow-e1)]",
+            dragging && "border-tide bg-tide-tint text-tide",
           )}
         >
           <Upload className="size-5" />
         </div>
-        <h2 className="text-xl font-semibold">
+        <h2 className="text-xl font-semibold text-ink-primary">
           {dragging ? "Release to add document" : "Drop a file here or browse"}
         </h2>
-        <p className="mt-2 text-sm text-muted-foreground">PDF · DOCX · CSV · TXT · up to 20 MB</p>
-        <Button className="mt-7" onClick={() => onView("processing")}>
+        <p className="mt-2 text-sm text-ink-tertiary">PDF · DOCX · CSV · TXT · up to 20 MB</p>
+        <Button
+          className="mt-7 rounded-full bg-clay px-6 text-primary-foreground hover:bg-clay/90 shadow-[var(--shadow-e1)] transition-transform active:scale-95"
+          onClick={() => onView("processing")}
+        >
           <Plus /> Add document
         </Button>
       </div>
-      <div className="mt-8 flex items-center justify-between border-t border-border pt-5">
+      <div className="mt-10 flex items-center justify-between border-t border-line-subtle pt-6">
         <div>
-          <p className="text-sm font-semibold">Need to test an exception?</p>
-          <p className="text-xs text-muted-foreground">
-            Preview a calm, recoverable failure state.
+          <p className="text-sm font-semibold text-ink-primary">Need to test an exception?</p>
+          <p className="text-xs text-ink-secondary">
+            Preview a calm, recoverable failure state with no jarring alerts.
           </p>
         </div>
-        <Button variant="ghost" onClick={() => setFailed(!failed)}>
+        <Button
+          variant="ghost"
+          className="rounded-lg text-ink-secondary hover:text-ink-primary hover:bg-ground-raised"
+          onClick={() => setFailed(!failed)}
+        >
           Toggle error
         </Button>
       </div>
       {failed && (
-        <div className="mt-5 border-l-2 border-amber bg-card px-5 py-4">
-          <p className="font-semibold">Something interrupted the process.</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            The document is still available. You can try again.
+        <div className="mt-5 rounded-xl border-l-4 border-madder bg-card p-5 shadow-[var(--shadow-e1)]">
+          <p className="font-semibold text-ink-primary">Something interrupted the process.</p>
+          <p className="mt-1 text-sm text-ink-secondary">
+            The document is still available in your local session. You can safely try again.
           </p>
-          <Button variant="outline" size="sm" className="mt-4" onClick={() => setFailed(false)}>
-            <RefreshCw /> Try again
+          <Button
+            variant="outline"
+            size="sm"
+            className="mt-4 rounded-full border-line-strong text-ink-primary hover:bg-ground-raised"
+            onClick={() => setFailed(false)}
+          >
+            <RefreshCw className="size-3.5" /> Try again
           </Button>
         </div>
       )}
@@ -512,47 +558,56 @@ function ProcessingView({ onView }: { onView: (v: WorkspaceView) => void }) {
     <main className="view-enter flex min-h-full items-center justify-center px-5 pb-28">
       <div className="w-full max-w-2xl">
         <Eyebrow>Understanding document</Eyebrow>
-        <h1 className="mt-4 text-3xl font-medium sm:text-4xl">Manufacturing Sector Skills Plan</h1>
+        <h1 className="mt-4 font-serif text-3xl sm:text-4xl font-normal text-ink-primary">
+          Manufacturing Sector Skills Plan
+        </h1>
         <div className="mt-12 grid grid-cols-4 gap-2" aria-label="Extraction progress">
           {stages.map((name, i) => (
             <div key={name}>
               <div
                 className={cn(
-                  "h-0.5 bg-border",
-                  i <= step && "bg-gold",
+                  "h-1 rounded-full bg-line-subtle transition-colors",
+                  i <= step && "bg-ochre",
+                  i < step && "bg-moss",
                   i === step && "quiet-line",
                 )}
               />
               <p
                 className={cn(
-                  "mt-3 text-xs",
-                  i <= step ? "font-semibold text-foreground" : "text-muted-foreground",
+                  "mt-3 text-xs flex items-center",
+                  i <= step ? "font-semibold text-ink-primary" : "text-ink-tertiary",
                 )}
               >
-                {i < step ? <Check className="mr-1 inline size-3 text-verified" /> : null}
+                {i < step ? <Check className="mr-1 inline size-3.5 text-moss" /> : null}
                 {name}
               </p>
             </div>
           ))}
         </div>
-        <div className="mt-16 border-y border-border py-8">
-          <Shimmer
-            className="text-base font-semibold"
-            children={
-              step < 3
-                ? (["Preparing document", "Reading content", "Building skill map"][step] ??
-                  "Reading content")
-                : "Structured knowledge ready"
-            }
-          />
-          <p className="mt-2 text-sm text-muted-foreground">
+        <div className="mt-14 rounded-2xl border border-line-subtle bg-card p-8 shadow-[var(--shadow-e1)]">
+          <div className="flex items-center gap-3">
+            <Seed size={24} state={step < 3 ? "thinking" : "idle"} />
+            <Shimmer
+              className="text-base font-semibold text-tide"
+              children={
+                step < 3
+                  ? (["Preparing document", "Reading content", "Building skill map"][step] ??
+                    "Reading content")
+                  : "Structured knowledge ready"
+              }
+            />
+          </div>
+          <p className="mt-3 text-sm text-ink-secondary leading-relaxed">
             {step < 3
               ? "Mapping language, evidence and occupational relationships."
-              : "32 skills and 14 occupations were identified."}
+              : "32 skills and 14 occupations were identified with high confidence."}
           </p>
         </div>
         {step === 3 && (
-          <Button className="mt-8" onClick={() => onView("knowledge")}>
+          <Button
+            className="mt-8 rounded-full bg-clay px-6 text-primary-foreground hover:bg-clay/90 shadow-[var(--shadow-e1)] transition-transform active:scale-95"
+            onClick={() => onView("knowledge")}
+          >
             Review extracted knowledge <ArrowRight />
           </Button>
         )}
@@ -577,54 +632,67 @@ function Composer({
   useEffect(() => {
     if (!thinking) textareaRef.current?.focus();
   }, [thinking]);
+
+  const seedState = thinking ? "thinking" : text.trim() ? "listening" : "idle";
+
   return (
     <div
       className={
         inline
           ? "w-full"
-          : "pointer-events-none fixed inset-x-0 bottom-0 z-20 bg-background px-4 pb-4 md:left-[var(--app-sidebar-width)] sm:px-6 sm:pb-5"
+          : "pointer-events-none fixed inset-x-0 bottom-0 z-20 bg-background/80 px-4 pb-4 backdrop-blur md:left-[var(--app-sidebar-width)] sm:px-6 sm:pb-5"
       }
     >
       <div className="pointer-events-auto mx-auto max-w-[760px]">
-        <PromptInput
-          onSubmit={(message) => {
-            const value = message.text.trim();
-            if (value) {
-              onSubmit?.(value);
-              setText("");
-              textareaRef.current?.focus();
-            }
-          }}
-          className="rounded-lg border-border bg-card shadow-none"
-        >
-          <PromptInputTextarea
-            ref={textareaRef}
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder="Message merSETA Extractor..."
-            aria-label="Message merSETA Extractor"
-            className="min-h-[88px] px-4 pt-4 text-[15px] leading-6"
-          />
-          <PromptInputFooter className="px-3 pb-3">
-            <PromptInputTools>
-              <PromptInputButton
-                tooltip="Add document"
-                onClick={onAttach}
-                className="size-9 text-muted-foreground"
-              >
-                <Plus className="size-5" />
-              </PromptInputButton>
-            </PromptInputTools>
-            <PromptInputSubmit
-              aria-label="Send message"
-              status={thinking ? "submitted" : "ready"}
-              disabled={!text.trim() || thinking}
-              className="size-9 rounded-md bg-primary text-primary-foreground shadow-none"
+        <div className="flex items-end gap-3">
+          <div className="hidden pb-3 sm:flex shrink-0" title={`Presence: ${seedState}`}>
+            <Seed size={28} state={seedState} />
+          </div>
+          <div className="min-w-0 flex-1">
+            <PromptInput
+              onSubmit={(message) => {
+                const value = message.text.trim();
+                if (value) {
+                  onSubmit?.(value);
+                  setText("");
+                  textareaRef.current?.focus();
+                }
+              }}
+              className="rounded-2xl border border-line-subtle bg-card shadow-[var(--shadow-e1)] transition-all focus-within:border-transparent focus-within:ring-2 focus-within:ring-tide"
             >
-              {!thinking && <ArrowUp className="size-5" />}
-            </PromptInputSubmit>
-          </PromptInputFooter>
-        </PromptInput>
+              <PromptInputTextarea
+                ref={textareaRef}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Ask about qualifications, sector skills, or documents..."
+                aria-label="Message merSETA Extractor"
+                className="min-h-[88px] px-4 pt-4 font-sans text-[15px] leading-6 text-ink-primary placeholder:text-ink-tertiary"
+              />
+              <PromptInputFooter className="px-3 pb-3">
+                <PromptInputTools className="flex items-center gap-2">
+                  <div className="sm:hidden">
+                    <Seed size={22} state={seedState} />
+                  </div>
+                  <PromptInputButton
+                    tooltip="Add document or report"
+                    onClick={onAttach}
+                    className="size-9 rounded-full text-ink-secondary hover:bg-ground-sunken hover:text-ink-primary"
+                  >
+                    <Plus className="size-5" />
+                  </PromptInputButton>
+                </PromptInputTools>
+                <PromptInputSubmit
+                  aria-label="Send message"
+                  status={thinking ? "submitted" : "ready"}
+                  disabled={!text.trim() || thinking}
+                  className="size-9 rounded-full bg-clay text-primary-foreground shadow-[var(--shadow-e1)] transition-transform hover:bg-clay/90 active:scale-95 disabled:opacity-40"
+                >
+                  {!thinking && <ArrowUp className="size-5" />}
+                </PromptInputSubmit>
+              </PromptInputFooter>
+            </PromptInput>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -634,79 +702,154 @@ function SessionView({ prompt, onAttach }: { prompt?: string; onAttach: () => vo
   const [thinking, setThinking] = useState(false);
   return (
     <main className="view-enter relative flex min-h-0 flex-1 flex-col">
-      <div className="border-b border-border px-5 py-4 sm:px-8">
+      <div className="border-b border-line-subtle bg-card/40 px-5 py-4 sm:px-8">
         <div className="mx-auto flex max-w-4xl items-center justify-between">
           <div className="min-w-0">
-            <p className="truncate font-semibold">Industrial Automation Skills Report</p>
-            <p className="text-xs text-muted-foreground">Research session · 1 document</p>
+            <p className="truncate font-semibold text-ink-primary">
+              Industrial Automation Skills Report
+            </p>
+            <p className="text-xs text-ink-secondary">Research session · 1 document</p>
           </div>
-          <IconButton label="Session options">
+          <IconButton
+            label="Session options"
+            className="text-ink-secondary hover:text-ink-primary hover:bg-ground-raised"
+          >
             <MoreHorizontal />
           </IconButton>
         </div>
       </div>
       <Conversation className="min-h-0">
-        <ConversationContent className="mx-auto w-full max-w-4xl gap-12 px-5 pb-40 pt-10 sm:px-8">
-          <Message from="user" className="max-w-xl">
-            <p className="eyebrow text-muted-foreground">You</p>
-            <MessageContent className="rounded-md bg-secondary px-4 py-3">
-              {prompt ||
-                "Analyse the skills contained in this document and map them to relevant occupations."}
-            </MessageContent>
-          </Message>
-          <Message from="assistant" className="max-w-none">
-            <div className="flex items-center gap-2">
-              <img src={BRAND_ASSETS.icon} alt="" className="size-6 object-contain" />
-              <p className="text-xs font-bold">merSETA Extractor</p>
+        <ConversationContent className="mx-auto w-full max-w-4xl gap-10 px-5 pb-40 pt-10 sm:px-8">
+          {/* Human input sits on a Clay-tint surface, right-weighted */}
+          <Message from="user" className="ml-auto max-w-xl">
+            <div className="flex flex-col items-end">
+              <span className="eyebrow mb-1.5 text-clay font-bold">You (Researcher)</span>
+              <MessageContent className="rounded-2xl border border-clay/20 bg-clay-tint px-5 py-3.5 text-[15px] leading-relaxed text-ink-primary shadow-[var(--shadow-e1)]">
+                {prompt ||
+                  "Analyse the skills contained in this document and map them to relevant occupations."}
+              </MessageContent>
             </div>
-            <MessageContent className="w-full max-w-[800px] gap-5 text-[15px] leading-7">
-              <MessageResponse>{`## Skills intelligence summary
+          </Message>
 
-The report signals a shift from routine maintenance toward **integrated automation capability**. I identified four high-confidence competency areas supported by direct evidence.
+          {/* System output sits directly on ground.base, unboxed, in body type, with a Seed attribution mark. Boxing the AI's text makes it feel like a widget; leaving it open makes it feel like a page. */}
+          <Message from="assistant" className="max-w-none">
+            <div className="flex items-center gap-2.5">
+              <Seed size={20} state={thinking ? "thinking" : "idle"} />
+              <img src={BRAND_ASSETS.icon} alt="" className="size-4 object-contain" />
+              <p className="text-xs font-semibold tracking-wide text-ink-primary">
+                merSETA Extractor
+              </p>
+              <span className="text-[11px] text-ink-tertiary">· Grounded evidence analysis</span>
+            </div>
+            <MessageContent className="w-full max-w-[800px] gap-6 text-[15px] sm:text-[16px] leading-[1.65] text-ink-primary font-sans">
+              <div className="space-y-4">
+                <h2 className="font-serif text-2xl font-normal tracking-tight text-ink-primary">
+                  Skills intelligence summary
+                </h2>
+                <p className="text-ink-primary">
+                  The report signals a shift from routine maintenance toward{" "}
+                  <strong className="font-semibold text-ink-primary">
+                    integrated automation capability
+                  </strong>
+                  . I identified four high-confidence competency areas supported by direct evidence
+                  <span
+                    className="mx-1 inline-flex items-center justify-center rounded bg-tide-tint px-1.5 py-0.5 font-mono text-[11px] font-bold text-tide cursor-pointer hover:bg-tide/20"
+                    title="Direct citation 1: Manufacturing Sector Skills Plan, Section 4.2"
+                  >
+                    1
+                  </span>
+                  and one emerging capability bridge{" "}
+                  <span
+                    className="underline decoration-ochre decoration-dotted underline-offset-4 cursor-help"
+                    title="Inferred synthesis: Systems integration demand requires cross-disciplinary technicians"
+                  >
+                    spanning operational analytics
+                  </span>
+                  .
+                </p>
+                <h3 className="font-serif text-lg font-normal text-ink-primary pt-2">
+                  Priority skills
+                </h3>
+                <ul className="list-disc pl-5 space-y-1.5 text-ink-primary">
+                  <li>
+                    <strong className="font-semibold">Industrial Automation</strong> — control
+                    architecture, commissioning and process optimisation
+                  </li>
+                  <li>
+                    <strong className="font-semibold">PLC Programming</strong> — logic development,
+                    diagnostics and control sequencing
+                  </li>
+                  <li>
+                    <strong className="font-semibold">Systems Integration</strong> — connecting
+                    plant systems, sensors and operational data
+                  </li>
+                  <li>
+                    <strong className="font-semibold">Predictive Maintenance</strong> — condition
+                    monitoring and failure prevention
+                  </li>
+                </ul>
+              </div>
 
-### Priority skills
-
-- **Industrial Automation** — control architecture, commissioning and process optimisation
-- **PLC Programming** — logic development, diagnostics and control sequencing
-- **Systems Integration** — connecting plant systems, sensors and operational data
-- **Predictive Maintenance** — condition monitoring and failure prevention`}</MessageResponse>
-              <div className="grid gap-px border-y border-border bg-border sm:grid-cols-2">
+              {/* Priority skills cards */}
+              <div className="grid gap-3 sm:grid-cols-2">
                 {skills.slice(0, 4).map((skill) => (
-                  <div key={skill.name} className="bg-background px-4 py-4">
-                    <p className="eyebrow text-muted-foreground">Identified skill</p>
-                    <p className="mt-2 font-semibold">{skill.name}</p>
-                    <div className="mt-3 flex items-center justify-between text-xs">
-                      <span className="text-muted-foreground">Confidence</span>
-                      <span className="font-bold text-verified">{skill.confidence}%</span>
+                  <div
+                    key={skill.name}
+                    className="rounded-xl border border-line-subtle bg-card p-4 shadow-[var(--shadow-e1)]"
+                  >
+                    <div className="flex items-center justify-between">
+                      <p className="eyebrow text-ink-tertiary">Identified skill</p>
+                      <span className="inline-flex items-center rounded-full border border-moss/20 bg-moss-tint px-2 py-0.5 font-mono text-xs font-bold text-moss">
+                        {skill.confidence}% verified
+                      </span>
                     </div>
+                    <p className="mt-2 font-semibold text-ink-primary">{skill.name}</p>
+                    <p className="mt-1 text-xs text-ink-secondary">{skill.evidence}</p>
                   </div>
                 ))}
               </div>
-              <div className="border-l-2 border-gold bg-card px-5 py-4">
-                <p className="eyebrow text-amber">Evidence</p>
-                <p className="mt-2 text-sm">
+
+              {/* Provenance and Evidence Tray */}
+              <div className="rounded-xl border-l-4 border-ochre bg-card p-4 shadow-[var(--shadow-e1)]">
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex size-5 items-center justify-center rounded bg-tide-tint font-mono text-xs font-semibold text-tide">
+                    1
+                  </span>
+                  <p className="eyebrow text-clay">Direct Evidence Citation</p>
+                </div>
+                <blockquote className="my-2 border-l-2 border-line-subtle pl-3 text-sm italic text-ink-primary leading-relaxed">
                   “Technicians require stronger capability in integrated control systems and
                   real-time plant diagnostics.”
+                </blockquote>
+                <p className="text-xs text-ink-secondary">
+                  Source:{" "}
+                  <span className="font-medium text-ink-primary">
+                    Manufacturing Sector Skills Plan
+                  </span>{" "}
+                  · Page 17 · Section 4.2
                 </p>
-                <p className="mt-2 text-xs text-muted-foreground">Page 17 · Section 4.2</p>
               </div>
             </MessageContent>
             <MessageActions className="opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100">
               <MessageAction tooltip="Copy response">
-                <Copy />
+                <Copy className="size-4 text-ink-secondary" />
               </MessageAction>
               <MessageAction tooltip="Regenerate">
-                <RefreshCw />
+                <RefreshCw className="size-4 text-ink-secondary" />
               </MessageAction>
               <MessageAction tooltip="More">
-                <MoreHorizontal />
+                <MoreHorizontal className="size-4 text-ink-secondary" />
               </MessageAction>
             </MessageActions>
           </Message>
+
           {thinking && (
-            <div className="flex items-center gap-3 text-sm">
-              <img src={BRAND_ASSETS.icon} alt="" className="size-6 object-contain" />
-              <Shimmer>Examining evidence...</Shimmer>
+            <div className="flex items-center gap-3 text-sm text-tide">
+              <Seed size={22} state="thinking" />
+              <img src={BRAND_ASSETS.icon} alt="" className="size-4 object-contain" />
+              <Shimmer className="font-medium text-tide">
+                Examining evidence and mapping capabilities...
+              </Shimmer>
             </div>
           )}
         </ConversationContent>
@@ -736,76 +879,93 @@ function DocumentView() {
   ];
   return (
     <main className="view-enter flex min-h-0 flex-1 flex-col">
-      <div className="flex items-center justify-between border-b border-border px-4 py-3 sm:px-6">
+      <div className="flex items-center justify-between border-b border-line-subtle bg-card/40 px-4 py-3 sm:px-6">
         <div className="min-w-0">
-          <p className="truncate text-sm font-semibold">Manufacturing Sector Skills Plan</p>
-          <p className="text-xs text-muted-foreground">42 pages · PDF</p>
+          <p className="truncate text-sm font-semibold text-ink-primary">
+            Manufacturing Sector Skills Plan
+          </p>
+          <p className="text-xs text-ink-secondary">42 pages · PDF</p>
         </div>
         <div className="flex items-center gap-1">
-          <IconButton label="Zoom out" onClick={() => setZoom(Math.max(80, zoom - 10))}>
+          <IconButton
+            label="Zoom out"
+            onClick={() => setZoom(Math.max(80, zoom - 10))}
+            className="text-ink-secondary hover:text-ink-primary hover:bg-ground-raised"
+          >
             <ZoomOut />
           </IconButton>
-          <span className="w-10 text-center text-xs text-muted-foreground">{zoom}%</span>
-          <IconButton label="Zoom in" onClick={() => setZoom(Math.min(120, zoom + 10))}>
+          <span className="w-10 text-center font-mono text-xs text-ink-secondary">{zoom}%</span>
+          <IconButton
+            label="Zoom in"
+            onClick={() => setZoom(Math.min(120, zoom + 10))}
+            className="text-ink-secondary hover:text-ink-primary hover:bg-ground-raised"
+          >
             <ZoomIn />
           </IconButton>
-          <IconButton label="More">
+          <IconButton
+            label="More"
+            className="text-ink-secondary hover:text-ink-primary hover:bg-ground-raised"
+          >
             <MoreHorizontal />
           </IconButton>
         </div>
       </div>
       <div className="grid min-h-0 flex-1 md:grid-cols-[220px_minmax(0,1fr)]">
-        <aside className="hidden border-r border-border bg-card p-4 md:block">
-          <p className="eyebrow mb-4 text-muted-foreground">Document outline</p>
+        <aside className="hidden border-r border-line-subtle bg-ground-sunken/40 p-4 md:block">
+          <p className="eyebrow mb-4 text-ink-tertiary">Document outline</p>
           {outline.map((item) => (
             <button
               key={item}
               onClick={() => setSection(item)}
               className={cn(
-                "flex w-full items-center border-l px-3 py-2 text-left text-xs text-muted-foreground",
-                item === section && "border-gold font-semibold text-foreground",
+                "flex w-full items-center border-l-2 px-3 py-2 text-left text-xs transition-colors rounded-r-md",
+                item === section
+                  ? "border-ochre bg-ground-raised font-semibold text-ink-primary shadow-[var(--shadow-e1)]"
+                  : "border-transparent text-ink-secondary hover:bg-ground-raised/60 hover:text-ink-primary",
               )}
             >
               {item}
             </button>
           ))}
         </aside>
-        <div className="min-h-0 overflow-y-auto bg-mist p-4 pb-28 sm:p-8">
+        <div className="min-h-0 overflow-y-auto bg-ground-sunken/30 p-4 pb-28 sm:p-8">
           <article
-            className="mx-auto min-h-[900px] max-w-[760px] border border-border bg-paper px-7 py-12 text-ink shadow-[0_1px_5px_color-mix(in_oklab,var(--navy)_6%,transparent)] sm:px-14"
+            className="mx-auto min-h-[900px] max-w-[760px] rounded-2xl border border-line-subtle bg-ground-raised px-7 py-12 text-ink-primary shadow-[var(--shadow-e2)] sm:px-14"
             style={{ maxWidth: `${(760 * zoom) / 100}px` }}
           >
-            <p className="eyebrow text-amber">04 · Skills priorities</p>
-            <h1 className="mt-5 text-3xl font-medium text-navy-dark sm:text-4xl">
+            <p className="eyebrow text-clay">04 · Skills priorities</p>
+            <h1 className="mt-5 font-serif text-3xl font-normal text-ink-primary sm:text-4xl">
               Advanced manufacturing capability
             </h1>
-            <p className="mt-6 text-[15px] leading-8 text-muted-foreground">
+            <p className="mt-6 text-[15px] leading-relaxed text-ink-secondary">
               The sector is entering a period in which digital systems, maintenance intelligence and
               adaptable technical expertise will determine productive capacity.
             </p>
-            <div className="my-8 h-px bg-line" />
-            <h2 className="text-xl font-semibold text-navy-dark">Industrial automation</h2>
-            <p className="mt-4 text-[15px] leading-8">
+            <div className="my-8 h-px bg-line-subtle" />
+            <h2 className="font-serif text-xl font-normal text-ink-primary">
+              Industrial automation
+            </h2>
+            <p className="mt-4 text-[15px] leading-relaxed text-ink-primary">
               Employers report a growing need for technicians who can work across conventional
               mechanical systems and digitally enabled production environments.{" "}
-              <mark className="bg-gold-light/60 text-ink">
+              <mark className="rounded bg-ochre-tint px-1.5 py-0.5 text-ink-primary">
                 Priority capabilities include programmable logic controllers, systems integration,
                 control engineering and production data analysis.
               </mark>
             </p>
-            <p className="mt-5 text-[15px] leading-8">
+            <p className="mt-5 text-[15px] leading-relaxed text-ink-primary">
               These capabilities are increasingly linked to the occupations of Industrial Automation
               Technician, Systems Engineer and Reliability Specialist.
             </p>
-            <aside className="mt-8 border-l-2 border-gold pl-5">
-              <p className="eyebrow text-amber">Extraction note</p>
-              <p className="mt-2 text-sm leading-6">
+            <aside className="mt-8 rounded-r-xl border-l-4 border-ochre bg-ochre-tint/20 p-4">
+              <p className="eyebrow text-clay">Extraction note</p>
+              <p className="mt-2 text-sm leading-6 text-ink-primary">
                 Four skills and three occupational relationships identified in this passage.
               </p>
             </aside>
-            <div className="mt-12 flex items-center justify-between border-t border-line pt-4 text-xs text-muted-foreground">
+            <div className="mt-12 flex items-center justify-between border-t border-line-subtle pt-4 text-xs text-ink-tertiary">
               <span>Manufacturing Sector Skills Plan</span>
-              <span>17</span>
+              <span className="font-mono">Page 17</span>
             </div>
           </article>
         </div>
@@ -820,39 +980,47 @@ function KnowledgeView({ onView }: { onView: (v: WorkspaceView) => void }) {
       <div className="flex flex-wrap items-end justify-between gap-5">
         <div>
           <Eyebrow>Structured knowledge</Eyebrow>
-          <h1 className="mt-3 text-3xl font-medium">Extraction complete</h1>
-          <p className="mt-3 text-sm text-muted-foreground">
+          <h1 className="mt-3 font-serif text-3xl font-normal text-ink-primary sm:text-4xl">
+            Extraction complete
+          </h1>
+          <p className="mt-3 text-sm text-ink-secondary">
             Manufacturing Sector Skills Plan · processed moments ago
           </p>
         </div>
-        <Button variant="outline" onClick={() => onView("document")}>
-          <BookOpen /> Open document
+        <Button
+          variant="outline"
+          className="rounded-full border-line-strong text-ink-primary hover:bg-ground-raised shadow-[var(--shadow-e1)]"
+          onClick={() => onView("document")}
+        >
+          <BookOpen className="size-4 text-clay" /> Open document
         </Button>
       </div>
       <section className="mt-12 grid gap-10 lg:grid-cols-[minmax(0,1.5fr)_minmax(280px,.7fr)]">
         <div>
-          <div className="border-y border-border py-6">
-            <p className="eyebrow text-muted-foreground">Document overview</p>
-            <p className="mt-4 max-w-2xl text-lg leading-8">
+          <div className="border-y border-line-subtle py-6">
+            <p className="eyebrow text-ink-tertiary">Document overview</p>
+            <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-primary">
               A sector-wide analysis of advanced manufacturing demand, highlighting automation,
               maintenance and systems integration as priority capability clusters.
             </p>
           </div>
-          <h2 className="mt-10 text-xl font-semibold">Identified skills</h2>
-          <div className="mt-4 divide-y divide-border border-y border-border">
+          <h2 className="mt-10 font-serif text-2xl font-normal text-ink-primary">
+            Identified skills
+          </h2>
+          <div className="mt-4 divide-y divide-line-subtle border-y border-line-subtle">
             {skills.map((skill) => (
               <button
                 key={skill.name}
                 onClick={() => onView("skills")}
-                className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-5 py-5 text-left hover:bg-muted/60"
+                className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-5 rounded-xl px-3 py-5 text-left transition-colors hover:bg-ground-raised"
               >
                 <div className="min-w-0">
-                  <p className="font-semibold">{skill.name}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">Evidence · {skill.evidence}</p>
+                  <p className="font-semibold text-ink-primary">{skill.name}</p>
+                  <p className="mt-1 text-xs text-ink-secondary">Evidence · {skill.evidence}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-bold text-verified">{skill.confidence}%</p>
-                  <p className="text-[10px] uppercase tracking-[0.12em] text-muted-foreground">
+                  <p className="font-mono text-sm font-bold text-moss">{skill.confidence}%</p>
+                  <p className="text-[10px] uppercase tracking-[0.14em] text-ink-tertiary">
                     Confidence
                   </p>
                 </div>
@@ -883,15 +1051,17 @@ function KnowledgeGroup({
   tone?: boolean;
 }) {
   return (
-    <section className="mb-8 border-t border-border pt-5">
-      <p className="eyebrow text-muted-foreground">{label}</p>
+    <section className="mb-8 border-t border-line-subtle pt-5">
+      <p className="eyebrow text-ink-tertiary">{label}</p>
       <div className="mt-3 flex flex-wrap gap-2">
         {items.map((item) => (
           <span
             key={item}
             className={cn(
-              "rounded-full border border-border px-3 py-1.5 text-xs",
-              tone ? "border-gold/50 bg-accent text-amber-dark dark:text-gold-light" : "bg-card",
+              "rounded-full border px-3 py-1.5 text-xs transition-colors",
+              tone
+                ? "border-tide/20 bg-tide-tint text-tide font-medium"
+                : "border-line-subtle bg-card text-ink-primary shadow-[var(--shadow-e1)]",
             )}
           >
             {item}
@@ -907,53 +1077,63 @@ function SkillsView() {
   return (
     <main className="view-enter mx-auto w-full max-w-6xl px-5 pb-28 pt-10 sm:px-8">
       <Eyebrow>Skills intelligence</Eyebrow>
-      <h1 className="mt-3 text-3xl font-medium">Capability map</h1>
+      <h1 className="mt-3 font-serif text-3xl font-normal text-ink-primary sm:text-4xl">
+        Capability map
+      </h1>
       <div className="mt-10 grid gap-10 lg:grid-cols-[320px_minmax(0,1fr)]">
-        <div className="divide-y divide-border border-y border-border">
+        <div className="divide-y divide-line-subtle border-y border-line-subtle">
           {skills.map((skill) => (
             <button
               key={skill.name}
               onClick={() => setSelected(skill)}
               className={cn(
-                "grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-3 py-5 text-left",
-                selected?.name === skill.name && "border-l-2 border-gold bg-muted",
+                "grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-3 py-5 text-left transition-colors rounded-xl",
+                selected?.name === skill.name
+                  ? "border-l-3 border-ochre bg-ground-raised text-ink-primary shadow-[var(--shadow-e1)]"
+                  : "text-ink-secondary hover:bg-ground-raised/60 hover:text-ink-primary",
               )}
             >
               <span className="truncate text-sm font-semibold">{skill.name}</span>
-              <span className="text-xs font-bold text-verified">{skill.confidence}%</span>
+              <span className="font-mono text-xs font-bold text-moss">{skill.confidence}%</span>
             </button>
           ))}
         </div>
         <article>
-          <p className="eyebrow text-amber">Identified skill</p>
-          <h2 className="mt-4 text-3xl font-medium sm:text-4xl">{selected?.name}</h2>
-          <div className="mt-8 flex items-end justify-between border-b border-border pb-5">
-            <span className="text-sm text-muted-foreground">Confidence</span>
-            <span className="text-3xl font-semibold text-verified">{selected?.confidence}%</span>
+          <p className="eyebrow text-clay">Identified skill</p>
+          <h2 className="mt-4 font-serif text-3xl font-normal text-ink-primary sm:text-4xl">
+            {selected?.name}
+          </h2>
+          <div className="mt-8 flex items-end justify-between border-b border-line-subtle pb-5">
+            <span className="text-sm text-ink-secondary">Confidence score</span>
+            <span className="font-mono text-3xl font-semibold text-moss">
+              {selected?.confidence}%
+            </span>
           </div>
           <section className="mt-8">
-            <p className="eyebrow text-muted-foreground">Related capabilities</p>
-            <div className="mt-4 grid gap-px bg-border sm:grid-cols-2">
+            <p className="eyebrow text-ink-tertiary">Related capabilities</p>
+            <div className="mt-4 grid gap-3 sm:grid-cols-2">
               {["PLC Programming", "Systems Integration", "SCADA", "Control Systems"].map(
                 (item) => (
                   <div
                     key={item}
-                    className="flex items-center gap-3 bg-background px-4 py-4 text-sm"
+                    className="flex items-center gap-3 rounded-xl border border-line-subtle bg-card px-4 py-4 text-sm text-ink-primary shadow-[var(--shadow-e1)]"
                   >
-                    <span className="size-1.5 rounded-full bg-gold" />
+                    <span className="size-2 rounded-full bg-ochre" />
                     {item}
                   </div>
                 ),
               )}
             </div>
           </section>
-          <section className="mt-9 border-l-2 border-gold bg-card px-5 py-5">
-            <p className="eyebrow text-amber">Evidence</p>
-            <p className="mt-3 font-semibold">3 references found</p>
-            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+          <section className="mt-9 rounded-r-2xl border-l-4 border-ochre bg-card p-5 shadow-[var(--shadow-e1)]">
+            <p className="eyebrow text-clay">Direct Evidence</p>
+            <p className="mt-3 font-semibold text-ink-primary">
+              3 references found in sector documentation
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-ink-secondary">
               The strongest reference appears in the advanced manufacturing capability section.
             </p>
-            <button className="mt-4 flex items-center gap-2 text-xs font-semibold text-navy dark:text-gold">
+            <button className="mt-4 flex items-center gap-2 text-xs font-semibold text-tide hover:underline">
               Open {selected?.evidence} <ArrowRight className="size-3" />
             </button>
           </section>
@@ -978,16 +1158,20 @@ function SettingsView({ dark, onDark }: { dark: boolean; onDark: () => void }) {
   return (
     <main className="view-enter mx-auto w-full max-w-6xl px-5 pb-24 pt-10 sm:px-8">
       <Eyebrow>Preferences</Eyebrow>
-      <h1 className="mt-3 text-3xl font-medium">Settings</h1>
+      <h1 className="mt-3 font-serif text-3xl font-normal text-ink-primary sm:text-4xl">
+        Settings
+      </h1>
       <div className="mt-10 grid gap-8 md:grid-cols-[200px_minmax(0,1fr)]">
-        <nav className="flex gap-1 overflow-x-auto border-b border-border pb-3 md:block md:border-b-0 md:border-r md:pb-0 md:pr-5">
+        <nav className="flex gap-1 overflow-x-auto border-b border-line-subtle pb-3 md:block md:border-b-0 md:border-r md:pb-0 md:pr-5">
           {cats.map((cat) => (
             <button
               key={cat}
               onClick={() => setCategory(cat)}
               className={cn(
-                "shrink-0 rounded-md px-3 py-2 text-left text-sm text-muted-foreground md:w-full",
-                cat === category && "bg-muted font-semibold text-foreground",
+                "shrink-0 rounded-lg px-3 py-2 text-left text-sm transition-colors md:w-full",
+                cat === category
+                  ? "border border-line-subtle bg-ground-raised font-semibold text-ink-primary shadow-[var(--shadow-e1)]"
+                  : "text-ink-secondary hover:bg-ground-raised/60 hover:text-ink-primary",
               )}
             >
               {cat}
@@ -995,14 +1179,14 @@ function SettingsView({ dark, onDark }: { dark: boolean; onDark: () => void }) {
           ))}
         </nav>
         <section className="max-w-2xl">
-          <h2 className="text-2xl font-semibold">{category}</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <h2 className="font-serif text-2xl font-normal text-ink-primary">{category}</h2>
+          <p className="mt-2 text-sm text-ink-secondary">
             Manage how merSETA Extractor behaves in this workspace.
           </p>
-          <div className="mt-8 divide-y divide-border border-y border-border">
+          <div className="mt-8 divide-y divide-line-subtle border-y border-line-subtle">
             <SettingRow
               title="Night workspace"
-              description="Use the deliberate dark research theme."
+              description="Use the deliberate LOAM dark theme (night soil)."
             >
               <Switch checked={dark} onCheckedChange={onDark} aria-label="Toggle night workspace" />
             </SettingRow>
@@ -1010,7 +1194,11 @@ function SettingsView({ dark, onDark }: { dark: boolean; onDark: () => void }) {
               title="Response detail"
               description="Control how much supporting evidence appears by default."
             >
-              <Button variant="outline" size="sm">
+              <Button
+                variant="outline"
+                size="sm"
+                className="rounded-lg border-line-strong text-ink-primary"
+              >
                 Balanced <ChevronDown />
               </Button>
             </SettingRow>
@@ -1028,15 +1216,22 @@ function SettingsView({ dark, onDark }: { dark: boolean; onDark: () => void }) {
             </SettingRow>
           </div>
           {category === "About" && (
-            <div className="mt-10 border-t border-border pt-8">
+            <div className="mt-10 border-t border-line-subtle pt-8">
               <img
                 src={BRAND_ASSETS.lockup}
                 alt="merSETA Extractor — AI Workspace"
-                className="h-auto w-full max-w-md object-contain dark:rounded-md dark:bg-paper dark:p-3"
+                className="h-auto w-full max-w-md object-contain dark:rounded-xl dark:bg-ground-raised dark:p-3"
               />
-              <p className="mt-6 text-sm text-muted-foreground">
+              <p className="mt-6 text-sm font-semibold text-ink-primary">
                 Wits × merSETA · Darkroom Initiative
               </p>
+              <div className="mt-4 rounded-xl border border-line-subtle bg-card p-4 shadow-[var(--shadow-e1)]">
+                <p className="text-xs font-semibold text-clay">Design Language: LOAM</p>
+                <p className="mt-1 text-xs leading-relaxed text-ink-secondary">
+                  A universal, earth-grounded, humanist system. Soil, clay, moss, stone, water.
+                  Built so people feel accompanied, not managed. Zero performed sentience.
+                </p>
+              </div>
             </div>
           )}
         </section>
@@ -1057,8 +1252,8 @@ function SettingRow({
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-5 py-5">
       <div>
-        <p className="text-sm font-semibold">{title}</p>
-        <p className="mt-1 text-xs leading-5 text-muted-foreground">{description}</p>
+        <p className="text-sm font-semibold text-ink-primary">{title}</p>
+        <p className="mt-1 text-xs leading-relaxed text-ink-secondary">{description}</p>
       </div>
       {children}
     </div>
@@ -1085,24 +1280,26 @@ function SearchCommand({
   ];
   return (
     <Dialog open={open} onOpenChange={onOpen}>
-      <DialogContent className="top-[18%] translate-y-0 gap-0 overflow-hidden p-0 sm:max-w-xl">
+      <DialogContent className="top-[18%] translate-y-0 gap-0 overflow-hidden rounded-2xl border border-line-subtle bg-card p-0 shadow-[var(--shadow-e3)] sm:max-w-xl">
         <DialogHeader className="sr-only">
           <DialogTitle>Search workspace</DialogTitle>
           <DialogDescription>Search documents, sessions and skills.</DialogDescription>
         </DialogHeader>
-        <div className="flex items-center gap-3 border-b border-border px-4">
-          <Search className="size-4 text-muted-foreground" />
+        <div className="flex items-center gap-3 border-b border-line-subtle px-4">
+          <Search className="size-4 text-ink-tertiary" />
           <input
             autoFocus
-            className="h-14 min-w-0 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+            className="h-14 min-w-0 flex-1 bg-transparent text-sm text-ink-primary outline-none placeholder:text-ink-tertiary font-sans"
             placeholder="Search documents, sessions, skills..."
           />
-          <kbd className="text-[10px] text-muted-foreground">ESC</kbd>
+          <kbd className="rounded border border-line-subtle bg-ground-raised px-1.5 py-0.5 text-[10px] font-mono text-ink-tertiary">
+            ESC
+          </kbd>
         </div>
         <div className="max-h-[420px] overflow-y-auto p-2">
           {groups.map((group) => (
             <div key={group.label}>
-              <p className="eyebrow px-3 pb-2 pt-4 text-muted-foreground">{group.label}</p>
+              <p className="eyebrow px-3 pb-2 pt-4 text-ink-tertiary">{group.label}</p>
               {group.items.map((item) => (
                 <button
                   key={item}
@@ -1110,17 +1307,17 @@ function SearchCommand({
                     onView(group.view);
                     onOpen(false);
                   }}
-                  className="flex w-full items-center gap-3 rounded-md px-3 py-3 text-left text-sm hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  className="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm text-ink-primary hover:bg-ground-raised focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-tide transition-colors"
                 >
-                  <group.icon className="size-4 text-muted-foreground" />
-                  <span className="flex-1">{item}</span>
-                  <ChevronRight className="size-3 text-muted-foreground" />
+                  <group.icon className="size-4 text-ink-tertiary" />
+                  <span className="flex-1 font-medium">{item}</span>
+                  <ChevronRight className="size-3 text-ink-tertiary" />
                 </button>
               ))}
             </div>
           ))}
         </div>
-        <div className="flex gap-4 border-t border-border px-4 py-3 text-[10px] text-muted-foreground">
+        <div className="flex gap-4 border-t border-line-subtle px-4 py-3 text-[10px] font-mono text-ink-tertiary">
           <span>↑↓ Navigate</span>
           <span>↵ Open</span>
         </div>
